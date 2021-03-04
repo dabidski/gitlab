@@ -145,9 +145,11 @@ class Gitlab::Client
     # @param  [Integer, String] project The ID or name of a project.
     # @param  [Integer] issue The ID of an issue.
     # @param  [String] body The body of a note.
+    # @option options [String] :created_at Date time string, ISO 8601 formatted, for example 2016-03-11T03:45:40Z.
     # @return [Gitlab::ObjectifiedHash] Information about created note.
-    def create_issue_note(project, issue, body)
-      post("/projects/#{url_encode project}/issues/#{issue}/notes", body: { body: body })
+    def create_issue_note(project, issue, body, options = {})
+      body = { body: body }.merge(options)
+      post("/projects/#{url_encode project}/issues/#{issue}/notes", body: body)
     end
 
     # Creates a new snippet note.
@@ -264,8 +266,9 @@ class Gitlab::Client
     # @param [Integer] id The ID of a note.
     # @param [String] body The content of a note.
     # @return [Gitlab::ObjectifiedHash]
-    def edit_issue_note(project, issue, id, body)
-      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: note_content(body))
+    def edit_issue_note(project, issue, id, body, options = {})
+      body = note_content(body).merge(options)
+      put("/projects/#{url_encode project}/issues/#{issue}/notes/#{id}", body: body)
     end
 
     # Modifies a snippet note.

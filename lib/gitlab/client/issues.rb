@@ -50,6 +50,7 @@ class Gitlab::Client
     # @option options [Integer] :assignee_id The ID of a user to assign issue.
     # @option options [Integer] :milestone_id The ID of a milestone to assign issue.
     # @option options [String] :labels Comma-separated label names for an issue.
+    # @option options [String] :created_at Date time string, ISO 8601 formatted, for example 2016-03-11T03:45:40Z.
     # @return [Gitlab::ObjectifiedHash] Information about created issue.
     def create_issue(project, title, options = {})
       body = { title: title }.merge(options)
@@ -70,6 +71,7 @@ class Gitlab::Client
     # @option options [Integer] :milestone_id The ID of a milestone to assign issue.
     # @option options [String] :labels Comma-separated label names for an issue.
     # @option options [String] :state_event The state event of an issue ('close' or 'reopen').
+    # @option options [String] :created_at Date time string, ISO 8601 formatted, for example 2016-03-11T03:45:40Z.
     # @return [Gitlab::ObjectifiedHash] Information about updated issue.
     def edit_issue(project, id, options = {})
       put("/projects/#{url_encode project}/issues/#{id}", body: options)
